@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.wang.shop.goods.entity">
+    <class name="com.wang.shop.goods.entity.Goods" >
+    <id    name="goodsId">
+        <generator class="native"></generator>
+    </id>
+    <property name="goodsName"></property>
+    <property name="goodsPrice" type="java.lang.Double"></property>
+    <property name="goodsPicture"></property>
+    <property name="goodsSupplier"></property>
+  	<many-to-one name="goodsType" class="com.wang.shop.goodsType.entity.GoodsType" column="goodsTypeId" not-null="true"></many-to-one>
+   
+    </class>
+</hibernate-mapping>

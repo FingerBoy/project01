@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+      
+      <!-- 导入applicationContext.xml -->
+      <import resource="applicationContext.xml"/>
+     <!-- 配置Action -->
+    	<!-- 配置跳转页面的GotoAction -->
+    	 <bean id="gotoAction" class="com.wang.shop.toJsp.action.GotoAction" scope="prototype">
+    	 	<property name="goodsTypeService" ref="goodsTypeService"></property>
+    	 </bean>
+    	 <!-- 配置用户UserAction -->
+    	 <bean id="userAction" class="com.wang.shop.user.action.UserAction" scope="prototype">
+    	 	<property name="userService" ref="userService"></property>
+    	 </bean>
+    	 <!-- 配置商品的GoodsAction -->
+    	 <bean id="goodsAction" class="com.wang.shop.goods.action.GoodsAction" scope="prototype" >
+    	 	<property name="goodsService" ref="goodsService"></property>
+    	 </bean>
+    	  <!-- 配置商品类型的GoodsTypeAction -->
+    	 <bean id="goodsTypeAction" class="com.wang.shop.goodsType.action.GoodsTypeAction" scope="prototype">
+    	 	<property name="goodsTypeService" ref="goodsTypeService"></property>
+    	 </bean>
+    	 <!-- 配置购物车的CartAction -->
+    	 <bean id="cartAction" class="com.wang.shop.cart.action.CartAction" scope="prototype">
+    	 	<property name="goodsService" ref="goodsService"></property>
+    	 </bean>
+    	 <!--配置订单的OrderAction -->
+    	 <bean id="orderAction" class="com.wang.shop.order.action.OrderAction" scope="prototype">
+    	 	<property name="orderService" ref="orderService"></property>
+    	 </bean>
+  		<!-- 配置后台页面跳转的ToAdminAction -->
+  		<bean  id="toAdminAction" class="com.wang.shop.toAdminJsp.action.ToAdminAction" scope="prototype">
+  		</bean>
+  		<!-- 配置管理员的AdminAction -->
+  		<bean  id="adminAction" class="com.wang.shop.admin.action.AdminAction" scope="prototype">
+  			<property name="adminService" ref="adminService"></property>
+  		</bean>
+  		<!-- 配置管理商品的AdminGoodsAction -->
+  		<bean id="adminGoodsAction" class="com.wang.shop.adminGoods.action.AdminGoodsAction" scope="prototype">
+  			<property name="goodsService" ref="goodsService"></property>
+  		</bean>
+  		<!-- 配置管理用户的AdminUserAction -->
+  		<bean  id="adminUserAction" class="com.wang.shop.adminManage.action.AdminUserAction" scope="prototype">
+  			<property name="userService" ref="userService"></property>
+  		</bean>
+    	<!-- 配置管理订单的AdminOrderAction -->
+    	<bean id="adminOrderAction" class="com.wang.shop.adminManage.action.AdminOrderAction" scope="prototype">
+    		<property name="orderService" ref="orderService"></property>
+    	</bean>
+    
+     <!-- 配置Dao -->
+     <bean  id="userDao" class="com.wang.shop.user.dao.UserDao">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     <bean id="goodsDao" class="com.wang.shop.goods.dao.GoodsDao">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+      <bean id="goodsTypeDao" class="com.wang.shop.goodsType.dao.GoodsTypeDao">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     <bean id="orderDao" class="com.wang.shop.order.dao.OrderDao">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     <bean id="adminDao" class="com.wang.shop.admin.dao.AdminDao">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+    
+     <!-- 配置service -->
+     <bean  id="userService" class="com.wang.shop.user.service.UserService">
+     	<property name="userDao" ref="userDao"></property>
+     </bean>
+     <bean id="goodsService" class="com.wang.shop.goods.service.GoodsService">
+     	<property name="goodsDao" ref="goodsDao"></property>
+     </bean>
+      <bean id="goodsTypeService" class="com.wang.shop.goodsType.service.GoodsTypeService">
+     	<property name="goodsTypeDao" ref="goodsTypeDao"></property>
+     </bean>
+      <bean id="orderService" class="com.wang.shop.order.service.OrderService">
+      	<property name="orderDao" ref="orderDao"></property>
+      </bean>
+      <bean id="adminService" class="com.wang.shop.admin.service.AdminService">
+      	<property name="adminDao" ref="adminDao"></property>
+      </bean>
+     
+ </beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+    <class name="com.wang.shop.order.entity.OrderItem" >
+    <id    name="itemId">
+        <generator class="native"></generator>
+    </id>
+    
+    <property name="count"></property>
+    <property name="total"></property>
+   	<!-- 与订单关联关系 -->
+   	<many-to-one name="order" class="com.wang.shop.order.entity.Order" column="orderId"></many-to-one>
+   	<!-- 与商品关联关系 -->
+   	<many-to-one name="goods" class="com.wang.shop.goods.entity.Goods" column="goodsId" lazy="false"></many-to-one>
+    </class>
+</hibernate-mapping>

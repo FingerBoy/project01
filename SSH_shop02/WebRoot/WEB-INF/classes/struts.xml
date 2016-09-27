@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- <constant name="struts.objectFactory" value="spring" /> -->
+   <!--  <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" /> -->
+	<package name="isLoginPackage" extends="struts-default">
+	<interceptors>
+		<!-- 配置自定义拦截器 -->
+		<interceptor name="checkLogin" class="com.wang.shop.util.LoginInterceptor"/>
+		<!-- 配置一个拦截器栈,里面包含自己写的拦截器和默认拦截器栈 -->
+		<interceptor-stack name="myStack">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="checkLogin"></interceptor-ref>
+		</interceptor-stack>
+	</interceptors>
+		<!-- 引用默认拦截器栈 -->
+		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+		<global-results>
+			<result name="noLogin">/WEB-INF/jspForUser/login.jsp</result>
+			<result name="input">/WEB-INF/jspForUser/login.jsp</result>
+		</global-results>
+	</package>
+	
+
+    <package name="shop" namespace="/" extends="isLoginPackage">
+		<!-- 跳转页面的action -->
+		<action name="to_*" class="gotoAction" method="{1}" >
+			<result name="{1}">/WEB-INF/jspForUser/{1}.jsp</result>
+		</action>
+		<!-- UserAction -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="regist_succ">/WEB-INF/jspForUser/login.jsp</result>
+			<result type="stream" name="ajax_succ">
+				<param name="contentType">text/html</param>
+				<param name="inputStream">inputStream</param>
+			</result>
+			<result name="login_succ" type="redirectAction">to_index</result>
+			<result name="login_fail">/WEB-INF/jspForUser/login.jsp</result>
+			<result name="logout_succ">/WEB-INF/jspForUser/login.jsp</result>
+			<result name="user_change">/WEB-INF/jspForUser/change.jsp</result>
+			<result name="changeUser_succ">/WEB-INF/jspForUser/changeSucc.jsp</result>
+			<result name="pwd_change">/WEB-INF/jspForUser/changeSucc.jsp</result>
+			<result name="pwd_chang_fail">/WEB-INF/jspForUser/changePwd.jsp</result>
+			
+		</action>
+		<!-- GoodsTypeAction -->
+		<action name="goodsType_*" class="goodsTypeAction" method="{1}">
+			<result name="showByType">/WEB-INF/jspForUser/showByType.jsp</result>
+		</action>
+		<!-- GoodsAction -->
+			<action name="goods_*" class="goodsAction" method="{1}">
+				<result name="findAll_succ">/WEB-INF/jspForUser/showAll.jsp</result>
+				<result name="showGoods">/WEB-INF/jspForUser/goods.jsp</result>
+				
+			</action>
+			<!-- CartAction -->
+			<action name="cart_*" class="cartAction" method="{1}">
+				<result name="addToCart">/WEB-INF/jspForUser/cart.jsp</result>
+				<result name="clearCart">/WEB-INF/jspForUser/cart.jsp</result>
+				<result name="remove">/WEB-INF/jspForUser/cart.jsp</result>
+				<result name="myCart">/WEB-INF/jspForUser/cart.jsp</result>
+			</action>
+			<!-- OrderAction -->
+				<action name="order_*" class="orderAction" method="{1}">
+					<result name="save_succ">/WEB-INF/jspForUser/orderList.jsp</result>
+					<result name="showById">/WEB-INF/jspForUser/orders.jsp</result>
+					<result name="showByOrderId">/WEB-INF/jspForUser/orderList.jsp</result>
+				</action>
+				
+    </package>
+    
+	<package name="admin" namespace="/" extends="struts-default">
+		<global-results>
+			<result name="input">/WEB-INF/jspForAdmin/login.jsp</result>
+		</global-results>
+		<!-- 后台页面跳转action' -->
+		<action name="toAdmin_*" class="toAdminAction" method="{1}">
+			<result name="{1}">/WEB-INF/jspForAdmin/{1}.jsp</result>
+		</action>
+		<!-- 管理员AdminAction -->
+		<action name="admin_*" class="adminAction" method="{1}">
+			<result name="login_succ">/WEB-INF/jspForAdmin/index.jsp</result>
+			<result name="add_succ">/WEB-INF/jspForAdmin/index.jsp</result>
+			<result name="adminShow">/WEB-INF/jspForAdmin/adminManage.jsp</result>
+			<result name="intoUpdate">/WEB-INF/jspForAdmin/adminUpdate.jsp</result>
+			<result name="adminUpdate_succ">/WEB-INF/jspForAdmin/adminUpdate_Succ.jsp</result>
+			<result name="updatePwd_succ">/WEB-INF/jspForAdmin/adminUpdate_Succ.jsp</result>
+			<result name="adminDelete" type="redirectAction">admin_adminShow</result>
+		</action>
+		<!-- 管理商品的action -->
+		<action name="adminGoods_*" class="adminGoodsAction" method="{1}">
+			<result name="addGoods_succ">/WEB-INF/jspForAdmin/adminUpdate_Succ.jsp</result>
+			<result name="goodsShow">/WEB-INF/jspForAdmin/goodsManage.jsp</result>
+			<result name="toGoodsUpdate">/WEB-INF/jspForAdmin/goodsUpdate.jsp</result>
+			<result name="goodsUpdate_succ">/WEB-INF/jspForAdmin/adminUpdate_Succ.jsp</result>
+			<result name="goodsDelete_succ">/WEB-INF/jspForAdmin/adminUpdate_Succ.jsp</result>
+		</action>
+		<!-- 管理用户的Action -->
+		<action name="adminUser_*" class="adminUserAction" method="{1}">
+			<result name="userShow">/WEB-INF/jspForAdmin/userManage.jsp</result>
+			<result name="toUserUpdate">/WEB-INF/jspForAdmin/userUpdate.jsp</result>
+			<result name="userUpdate_succ">/WEB-INF/jspForAdmin/adminUpdate_Succ.jsp</result>
+			<result name="userDelete" type="redirectAction">adminUser_userShow</result>
+		</action>
+		<!-- 管理订单的Action -->
+		<action name="adminOrder_*" class="adminOrderAction" method="{1}">
+			<result name="orderShow">/WEB-INF/jspForAdmin/orderManage.jsp</result>
+			<result name="orderItemShow">/WEB-INF/jspForAdmin/orderItemShow.jsp</result>
+			<result name="orderDelete" type="redirectAction">adminOrder_orderShow</result>
+		</action>
+	</package>
+   
+</struts>
